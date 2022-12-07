@@ -8,14 +8,14 @@
         <h1> Page de connexion</h1>
         <p>Pour accéder à votre espace personnel, connectez-vous en entrant votre identifiant et votre mot de passe.</p>
         
-        <form action="" method="get" class="form-connexion">
+        <form action="" method="get" class="form-connexion" id="form">
             <div class="form-connexion">
               <label for="identifiant">Entrez votre identifiant: </label>
               <input type="text" name="identifiant" id="identifiant" required>
             </div>
             <div class="form-connexion">
               <label for="mot-de-passe">Entrer votre mot de passe : </label>
-              <input type="text" name="mot-de-passe" id="mdp" required>
+              <input type="password" name="mot-de-passe" id="mdp" required>
             </div>
             <br>
             <div class="form-connexion">
@@ -26,6 +26,36 @@
           <br>
 
           <a href="inscription.html">Se créer un compte.</a>
+
+          <SCRIPT LANGUAGE="javascript">
+
+            const form = document.getElementById("form")
+            form.addEventListener("submit", (e)=> {
+              e.preventDefault()
+              var id = document.getElementById("identifiant").value;
+              var mdp= document.getElementById("mdp").value;
+
+              const data = {
+                "name":id,
+                "password":mdp
+              }
+
+              fetch("http://localhost:8080/person/verifPerson",
+                  {
+                    method:"POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify(data)
+                  }
+              ).then(res=>res.json()).then(res=> {
+                console.log(res)
+                if(res){
+                    window.location.replace('http://localhost:5500/Front/page.html')
+                }})
+            })
+            </SCRIPT>
 
     </body>
 </html>

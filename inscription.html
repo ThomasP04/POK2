@@ -8,14 +8,14 @@
         <h1> Inscription </h1>
         <p> Pour se créer un compte, veuillez rentrer un identifiant et un mot de passe.</p>
 
-        <form action="" method="get" class="form-inscription">
+        <form action="" method="get" class="form-inscription" id="form-2">
             <div class="form-inscription">
               <label for="identifiant">Choississez un identifiant: </label>
               <input type="text" name="identifiant" id="identifiant" required>
             </div>
             <div class="form-inscription">
               <label for="mot-de-passe">Choississez un mot de passe : </label>
-              <input type="text" name="mot-de-passe" id="mdp" required>
+              <input type="password" name="mot-de-passe" id="mdp" required>
             </div>
             <br>
             <div class="form-inscription">
@@ -24,7 +24,37 @@
           </form>
         
         <br>  
-        <a href="index.html">Retour à la page de connexion.</a>      
+        <a href="index.html">Retour à la page de connexion.</a>
+
+        <SCRIPT LANGUAGE="javascript">
+
+          const form = document.getElementById("form-2")
+          form.addEventListener("submit", (e)=> {
+            e.preventDefault()
+            var id = document.getElementById("identifiant").value;
+            var mdp= document.getElementById("mdp").value;
+
+            const data = {
+              "name":id,
+              "password":mdp
+            }
+
+            fetch("http://localhost:8080/person/newPerson",
+                {
+                  method:"POST",
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                  },
+                  body:JSON.stringify(data)
+                }
+            ).then(res=>res.json()).then(res=> {
+              console.log(res)
+              if(res){
+                  window.location.replace('http://localhost:5500/Front/souscription.html')
+              }})
+          })
+          </SCRIPT>
 
     </body>
 </html>
